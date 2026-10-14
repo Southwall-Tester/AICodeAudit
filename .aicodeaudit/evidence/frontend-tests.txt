@@ -1,0 +1,10 @@
+✔ real demo import, all views, source navigation and persistent reading notes (573.8754ms)
+✔ untrusted filenames and handoff line values render as text, not injected markup (138.7772ms)
+ℹ tests 2
+ℹ suites 0
+ℹ pass 2
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1323.7069

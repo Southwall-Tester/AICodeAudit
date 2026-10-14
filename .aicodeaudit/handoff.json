@@ -1,0 +1,189 @@
+{
+  "version": 1,
+  "project": {
+    "name": "AICodeAudit",
+    "summary": "帮助人类理解、审查并接管 AI 从零生成的项目，并用生成端 Skill 提升代码交接质量。"
+  },
+  "start": [
+    {
+      "command": "python -m audit.server",
+      "cwd": ".",
+      "note": "Python 3.12+；工作台运行只需要标准库。访问 http://127.0.0.1:8765"
+    }
+  ],
+  "features": [
+    {
+      "id": "index",
+      "title": "真实项目索引与架构地图",
+      "summary": "从本机目录或浏览器文件夹读取源码，提取结构与静态导入关系，生成可点击地图。",
+      "status": "implemented",
+      "entrypoints": [
+        {
+          "path": "audit/server.py",
+          "line": 157,
+          "sha256": "1e9faa5bab71f272b44ba97cbd0b7e1e82e5b660dc2e5efd60a19935416f7fe7"
+        }
+      ],
+      "flow": [
+        {
+          "path": "audit/analyzer.py",
+          "line": 36,
+          "note": "查看目录边界、文件类型、体积限制与忽略规则。",
+          "sha256": "aa482c8a77cce8e4ff3c0eb604130f9a97bd078275303efdc1ca9d938b439066"
+        },
+        {
+          "path": "audit/analyzer.py",
+          "line": 186,
+          "note": "查看符号、导入、路由与阅读路线的生成依据。",
+          "sha256": "aa482c8a77cce8e4ff3c0eb604130f9a97bd078275303efdc1ca9d938b439066"
+        },
+        {
+          "path": "web/app.js",
+          "line": 1,
+          "note": "mapPanel 把文件职责和真实导入聚合为图；源码抽屉展示索引中的原文。",
+          "sha256": "8782c8b04f2bc79a5fcfb466a6a35b2803b96c6186be735a3091b7e567da9f4e"
+        }
+      ],
+      "acceptance": [
+        "不同输入项目产生各自的入口与关系",
+        "原项目不被执行或修改",
+        "显示解析与索引边界"
+      ]
+    },
+    {
+      "id": "handoff",
+      "title": "生成端 Skill 与交接审查",
+      "summary": "生成 AI 交付功能、路径和验证记录；工作台检查引用，人工记录独立结论。",
+      "status": "implemented",
+      "entrypoints": [
+        {
+          "path": "skills/audit-ready/SKILL.md",
+          "line": 1,
+          "sha256": "efe8682f0f5c55df80ada40f65a9748c174b1bad4210f36a9d4373695512690b"
+        }
+      ],
+      "flow": [
+        {
+          "path": "skills/audit-ready/references/protocol.md",
+          "line": 1,
+          "note": "约定声明、运行证据和引用指纹的含义。",
+          "sha256": "003211ef332ee1c850a234418de99fdb882039479fafc958f95430c1a82a69f4"
+        },
+        {
+          "path": "skills/audit-ready/scripts/validate_handoff.py",
+          "line": 29,
+          "note": "检查结构、行号与归一化内容指纹，避免跨平台换行误报。",
+          "sha256": "e3ff60affecd46b61e99dad9bbfee240db8ce0f50b357ba8dfe1eb8c8031929c"
+        },
+        {
+          "path": "audit/handoff.py",
+          "line": 13,
+          "note": "理解端复用相同校验器。",
+          "sha256": "792855f99a8a3be9ea361d7103c8eeb47b8b1b071b27e1003b86c353ec47186c"
+        },
+        {
+          "path": "audit/server.py",
+          "line": 62,
+          "note": "人工审查记录绑定项目和快照，独立于作者声明。",
+          "sha256": "1e9faa5bab71f272b44ba97cbd0b7e1e82e5b660dc2e5efd60a19935416f7fe7"
+        }
+      ],
+      "acceptance": [
+        "过期、丢失、越界引用分别提示",
+        "作者测试声明不自动变成人工通过",
+        "源码变化后阅读和人工审查需复核"
+      ]
+    },
+    {
+      "id": "ask",
+      "title": "本地检索与可选模型解释",
+      "summary": "检索源码位置与上下文；显式启用模型时发送有限片段，独立提供源码引用。",
+      "status": "implemented",
+      "entrypoints": [
+        {
+          "path": "audit/server.py",
+          "line": 80,
+          "sha256": "1e9faa5bab71f272b44ba97cbd0b7e1e82e5b660dc2e5efd60a19935416f7fe7"
+        }
+      ],
+      "flow": [
+        {
+          "path": "audit/analyzer.py",
+          "line": 260,
+          "note": "按关键词、有限中文别名和路径打分检索。",
+          "sha256": "aa482c8a77cce8e4ff3c0eb604130f9a97bd078275303efdc1ca9d938b439066"
+        },
+        {
+          "path": "audit/server.py",
+          "line": 80,
+          "note": "核对上下文截取、模型请求与本地回退；没有执行工具。",
+          "sha256": "1e9faa5bab71f272b44ba97cbd0b7e1e82e5b660dc2e5efd60a19935416f7fe7"
+        }
+      ],
+      "acceptance": [
+        "未启用模型时无需外部调用",
+        "没有匹配上下文时不编造源码解释",
+        "模型失败显示明确错误"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "name": "后端与 HTTP 集成测试",
+      "command": "python -X utf8 -m unittest discover -s tests -v",
+      "cwd": ".",
+      "status": "passed",
+      "exit_code": 0,
+      "ran_at": "2026-10-14T07:54:33.096086+00:00",
+      "evidence": {
+        "path": ".aicodeaudit/evidence/workbench-tests.txt",
+        "line": 1,
+        "sha256": "eef642e71f220b047c59a79b9c0926be58b373817ea98f19455a6a98692d49ad"
+      }
+    },
+    {
+      "name": "前端 DOM 与 API 联调",
+      "command": "node --test tests/frontend.test.mjs",
+      "cwd": ".",
+      "status": "passed",
+      "exit_code": 0,
+      "ran_at": "2026-10-14T07:54:34.491275+00:00",
+      "evidence": {
+        "path": ".aicodeaudit/evidence/frontend-tests.txt",
+        "line": 1,
+        "sha256": "adf47fe4d1987b1ab7cd45d8ce764d093bc717b770fea5894857bdc2642e30da"
+      }
+    },
+    {
+      "name": "浏览器脚本语法检查",
+      "command": "node --check web/app.js",
+      "cwd": ".",
+      "status": "passed",
+      "exit_code": 0,
+      "ran_at": "2026-10-14T07:54:34.549582+00:00",
+      "evidence": {
+        "path": ".aicodeaudit/evidence/javascript-check.txt",
+        "line": 1,
+        "sha256": "5ae0e3287fe22f9c20c25e13e3d94c7e593e84823e52de858fc97bf109a5c282"
+      }
+    }
+  ],
+  "risks": [
+    {
+      "title": "静态分析覆盖有限",
+      "detail": "JS/TS 为启发式解析，不支持所有别名、动态调用和隐式路由；地图不是运行调用链。"
+    },
+    {
+      "title": "视觉验收待完成",
+      "detail": "本次浏览器连接不可用；真实 DOM 测试已通过，但布局、窄屏、文件选择器和下载需浏览器复核。"
+    },
+    {
+      "title": "外部模型尚未实测",
+      "detail": "仅以本机模拟接口验证协议；没有实际供应商凭据或质量评估。"
+    },
+    {
+      "title": "面向个人本地使用",
+      "detail": "没有多用户鉴权，不应公开绑定到互联网；不会自动执行导入项目。"
+    }
+  ]
+}

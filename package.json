@@ -1,0 +1,8 @@
+{
+  "name": "aicodeaudit-dom-tests",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Development-only DOM integration tests; the application has no npm runtime dependencies.",
+  "scripts": {"test": "node --test tests/frontend.test.mjs"},
+  "devDependencies": {"jsdom": "30.1.2"}
+}

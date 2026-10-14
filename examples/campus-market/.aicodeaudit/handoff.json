@@ -1,0 +1,159 @@
+{
+  "version": 1,
+  "project": {
+    "name": "Campus Market",
+    "summary": "一个连接校园闲置物品与新主人的轻量集市。"
+  },
+  "start": [
+    {
+      "command": "python -m uvicorn app:app --port 8001",
+      "cwd": ".",
+      "note": "先安装 requirements.txt；仅供本机演示"
+    }
+  ],
+  "features": [
+    {
+      "id": "browse",
+      "title": "浏览闲置商品",
+      "summary": "从页面请求商品列表，读取内存中的条目并渲染。",
+      "status": "implemented",
+      "entrypoints": [
+        {
+          "path": "app.py",
+          "line": 26,
+          "sha256": "cd2d078bb889581e6c77230d085500052ef782cfc2c57c7ad6e23f3521f24415"
+        }
+      ],
+      "flow": [
+        {
+          "path": "web/app.js",
+          "line": 4,
+          "note": "页面启动后请求商品列表，用 textContent 构造条目。",
+          "sha256": "f5577a5057ff03e88b783ae372cb4f5c3a522b92bbb266e5b78420f320d59da2"
+        },
+        {
+          "path": "app.py",
+          "line": 26,
+          "note": "GET /api/items 将请求交给业务服务。",
+          "sha256": "cd2d078bb889581e6c77230d085500052ef782cfc2c57c7ad6e23f3521f24415"
+        },
+        {
+          "path": "services/items.py",
+          "line": 12,
+          "note": "将数据类转成字典列表返回。",
+          "sha256": "69bd3827bd57c48e3b9f34a708ac0ebfdeb153b2410dcb4019320d15ffa8661f"
+        }
+      ],
+      "acceptance": [
+        "新启动时商品列表为空",
+        "发布后列表包含新条目"
+      ]
+    },
+    {
+      "id": "publish",
+      "title": "发布闲置商品",
+      "summary": "校验商品标题与价格，生成编号并保存到内存。",
+      "status": "implemented",
+      "entrypoints": [
+        {
+          "path": "app.py",
+          "line": 31,
+          "sha256": "cd2d078bb889581e6c77230d085500052ef782cfc2c57c7ad6e23f3521f24415"
+        }
+      ],
+      "flow": [
+        {
+          "path": "web/app.js",
+          "line": 24,
+          "note": "表单收集输入并发出创建请求。",
+          "sha256": "f5577a5057ff03e88b783ae372cb4f5c3a522b92bbb266e5b78420f320d59da2"
+        },
+        {
+          "path": "app.py",
+          "line": 31,
+          "note": "接口将输入交给业务层；业务异常返回 HTTP 400。",
+          "sha256": "cd2d078bb889581e6c77230d085500052ef782cfc2c57c7ad6e23f3521f24415"
+        },
+        {
+          "path": "services/items.py",
+          "line": 16,
+          "note": "去除标题空白，拒绝负数与非有限价格。",
+          "sha256": "69bd3827bd57c48e3b9f34a708ac0ebfdeb153b2410dcb4019320d15ffa8661f"
+        },
+        {
+          "path": "models/item.py",
+          "line": 6,
+          "note": "数据类保存字段并生成条目编号。",
+          "sha256": "bf06de0f41d4bd5523ce2718cea4f7b9529fd8ae59df800de8aa27fa915e0b53"
+        }
+      ],
+      "acceptance": [
+        "空标题被拒绝",
+        "负数、NaN、无穷价格被拒绝",
+        "标题去除两端空格"
+      ]
+    },
+    {
+      "id": "favorite",
+      "title": "收藏感兴趣的商品",
+      "summary": "按用户和商品切换收藏状态；接口身份仍为固定演示用户。",
+      "status": "partial",
+      "entrypoints": [
+        {
+          "path": "app.py",
+          "line": 39,
+          "sha256": "cd2d078bb889581e6c77230d085500052ef782cfc2c57c7ad6e23f3521f24415"
+        }
+      ],
+      "flow": [
+        {
+          "path": "app.py",
+          "line": 39,
+          "note": "检查固定演示用户的限制。",
+          "sha256": "cd2d078bb889581e6c77230d085500052ef782cfc2c57c7ad6e23f3521f24415"
+        },
+        {
+          "path": "services/items.py",
+          "line": 27,
+          "note": "收藏集合按 user_id 与 item_id 隔离；缺失商品抛出异常。",
+          "sha256": "69bd3827bd57c48e3b9f34a708ac0ebfdeb153b2410dcb4019320d15ffa8661f"
+        }
+      ],
+      "acceptance": [
+        "重复操作切换收藏状态",
+        "不同用户的收藏相互独立",
+        "不存在的商品返回 404"
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "name": "业务边界测试",
+      "command": "python -m unittest discover -s tests -v",
+      "cwd": ".",
+      "status": "passed",
+      "note": "实际执行的纯业务单元测试；不覆盖 HTTP 与浏览器",
+      "exit_code": 0,
+      "ran_at": "2026-10-14T07:44:48.689605+00:00",
+      "evidence": {
+        "path": ".aicodeaudit/evidence/business-tests.txt",
+        "line": 1,
+        "sha256": "887e9466369f80552478e10725ed02d524ec946cc1b4e81710733184ed4352a9"
+      }
+    }
+  ],
+  "risks": [
+    {
+      "title": "数据尚未持久化",
+      "detail": "商品和收藏存在内存中，重启会丢失；并发与多进程一致性未处理。"
+    },
+    {
+      "title": "真实身份认证未实现",
+      "detail": "接口固定使用 demo-user，不代表完成登录、鉴权与访问隔离。"
+    },
+    {
+      "title": "未验证 HTTP 与浏览器行为",
+      "detail": "业务单元测试不覆盖 FastAPI 路由、请求并发和前端交互。"
+    }
+  ]
+}

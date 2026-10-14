@@ -1,0 +1,28 @@
+name: Test workbench and handoff contract
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: python -X utf8 -m unittest discover -s tests -v
+      - run: node --check web/app.js
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm test
+      - run: python -X utf8 skills/audit-ready/scripts/validate_handoff.py examples/campus-market
+      - run: python -X utf8 -m unittest discover -s tests -v
+        working-directory: examples/campus-market

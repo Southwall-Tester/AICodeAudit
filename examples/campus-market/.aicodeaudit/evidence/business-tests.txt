@@ -1,0 +1,9 @@
+test_create_and_list (test_items.ItemTests.test_create_and_list) ... ok
+test_favorites_are_scoped_to_user (test_items.ItemTests.test_favorites_are_scoped_to_user) ... ok
+test_invalid_prices_and_title (test_items.ItemTests.test_invalid_prices_and_title) ... ok
+test_missing_item (test_items.ItemTests.test_missing_item) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.000s
+
+OK

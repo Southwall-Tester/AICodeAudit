@@ -1,0 +1,28 @@
+test_different_project_produces_own_routes_and_tour (test_workbench.AnalyzerTests.test_different_project_produces_own_routes_and_tour) ... ok
+test_directory_excludes_secrets_deps_and_ignored_paths (test_workbench.AnalyzerTests.test_directory_excludes_secrets_deps_and_ignored_paths) ... ok
+test_empty_project_is_actionable_error (test_workbench.AnalyzerTests.test_empty_project_is_actionable_error) ... ok
+test_invalid_python_retains_text_and_reports_failure (test_workbench.AnalyzerTests.test_invalid_python_retains_text_and_reports_failure) ... ok
+test_js_resolves_relative_import_but_not_alias (test_workbench.AnalyzerTests.test_js_resolves_relative_import_but_not_alias) ... ok
+test_python_relative_and_absolute_imports (test_workbench.AnalyzerTests.test_python_relative_and_absolute_imports) ... ok
+test_search_has_real_line_numbers (test_workbench.AnalyzerTests.test_search_has_real_line_numbers) ... ok
+test_snapshot_is_order_independent_and_changes_with_content (test_workbench.AnalyzerTests.test_snapshot_is_order_independent_and_changes_with_content) ... ok
+test_upload_rejects_traversal_and_secret_paths (test_workbench.AnalyzerTests.test_upload_rejects_traversal_and_secret_paths) ... ok
+test_claimed_passing_check_requires_consistent_evidence (test_workbench.HandoffTests.test_claimed_passing_check_requires_consistent_evidence) ... ok
+test_invalid_document_does_not_crash (test_workbench.HandoffTests.test_invalid_document_does_not_crash) ... ok
+test_missing_out_of_range_and_unpinned_refs (test_workbench.HandoffTests.test_missing_out_of_range_and_unpinned_refs) ... ok
+test_paths_cannot_escape_project (test_workbench.HandoffTests.test_paths_cannot_escape_project) ... ok
+test_reference_hash_is_portable_across_line_endings (test_workbench.HandoffTests.test_reference_hash_is_portable_across_line_endings) ... ok
+test_valid_reference_and_stale_reference_are_distinct (test_workbench.HandoffTests.test_valid_reference_and_stale_reference_are_distinct) ... ok
+test_cross_origin_and_rebinding_hosts_are_rejected (test_workbench.IntegrationTests.test_cross_origin_and_rebinding_hosts_are_rejected) ... ok
+test_delete_only_removes_local_index (test_workbench.IntegrationTests.test_delete_only_removes_local_index) ... ok
+test_import_source_search_note_and_export (test_workbench.IntegrationTests.test_import_source_search_note_and_export) ... ok
+test_local_question_has_sources_without_model (test_workbench.IntegrationTests.test_local_question_has_sources_without_model) ... ok
+test_model_adapter_uses_bounded_real_context (test_workbench.IntegrationTests.test_model_adapter_uses_bounded_real_context) ... ok
+test_settings_do_not_return_api_key_and_clear_on_endpoint_change (test_workbench.IntegrationTests.test_settings_do_not_return_api_key_and_clear_on_endpoint_change) ... ok
+test_snapshot_change_invalidates_progress_and_stale_writes (test_workbench.IntegrationTests.test_snapshot_change_invalidates_progress_and_stale_writes) ... ok
+test_source_lookup_cannot_read_outside_index (test_workbench.IntegrationTests.test_source_lookup_cannot_read_outside_index) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 4.933s
+
+OK
